@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight, FaPlay } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const FilmSlider = () => {
+  const navigate=useNavigate()
   // Sample film data
   const films = [
     {
@@ -146,7 +148,8 @@ const FilmSlider = () => {
 
         {/* View all button */}
         <div className="text-center mt-8">
-          <button className="text-pink-600 hover:text-pink-800 font-medium flex items-center justify-center gap-2 mx-auto">
+          <button onClick={()=>navigate('/upload')}
+          className="text-pink-600 hover:text-pink-800 font-medium flex items-center justify-center gap-2 mx-auto">
             View All Films <FaChevronRight />
           </button>
         </div>

@@ -8,6 +8,9 @@ import Upload from './components/Upload Page/Upload'
 import ClientRequestForm from './components/Upload Page/ClientRequestForm'
 import EditorDetailsPage from './components/Editors/EditorDetailsPage'
 import Notifications from './pages/Notification'
+import UploadForm from './components/Upload Page/UploadForm'
+import EditorDashboard from './components/Dashboard/EditorDashboard'
+import UploaderDashboard from './components/Dashboard/UploaderDashboard'
 
 function App() {
 
@@ -37,8 +40,11 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/edit-request" element={<ClientRequestForm />} />
-          <Route path="editor/:documentId" element={<EditorDetailsPage />} />
+          <Route path="editor" element={<EditorDetailsPage />} />
           <Route path="/notifications" element={<Notifications />} />
+                <Route path="/upload-form" element={<UploadForm />} />
+                 <Route path="/editor-dashboard" element={<EditorDashboard/>} />
+                  <Route path="/uploader-dashboard" element={<UploaderDashboard/>} />
           <Route path="*" element={<Home />} />
         </>
       )}
