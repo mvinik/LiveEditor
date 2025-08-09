@@ -28,26 +28,26 @@ function AppContent() {
 
   return (
     <Routes>
-      {!jwt ? (
-        <>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth/google/callback" element={<GoogleAuthCallback />} />
-          <Route path="*" element={<Login />} />
-        </>
-      ) : (
-        <>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/edit-request" element={<ClientRequestForm />} />
-          <Route path="editor" element={<EditorDetailsPage />} />
-          <Route path="/notifications" element={<Notifications />} />
-                <Route path="/upload-form" element={<UploadForm />} />
-                 <Route path="/editor-dashboard" element={<EditorDashboard/>} />
-                  <Route path="/uploader-dashboard" element={<UploaderDashboard/>} />
-          <Route path="*" element={<Home />} />
-        </>
-      )}
+      {/* {!jwt ? ( */}
+      <>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/auth/google/callback" element={<GoogleAuthCallback />} />
+        <Route path="*" element={<Login />} />
+      </>
+      {/* ) : ( */}
+      <>
+        <Route path="/" element={<Home />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/edit-request" element={<ClientRequestForm />} />
+        <Route path="editor" element={<EditorDetailsPage />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/upload-form" element={<UploadForm />} />
+        <Route path="/editor-dashboard" element={<EditorDashboard />} />
+        <Route path="/uploader-dashboard" element={<UploaderDashboard />} />
+        <Route path="*" element={<Home />} />
+      </>
+      {/* )} */}
     </Routes>
   );
 }

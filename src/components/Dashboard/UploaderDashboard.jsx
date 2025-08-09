@@ -13,12 +13,13 @@ import {
   CheckCircle,
   Clock
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const UploaderDashboard = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [activeTab, setActiveTab] = useState('videos'); // 'videos' or 'editRequests'
-
+const navigate=useNavigate()
   // Sample static data
   const videos = [
     {
@@ -212,7 +213,8 @@ const UploaderDashboard = () => {
           <div className="bg-white rounded-2xl shadow p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Your Uploaded <span className="text-pink-700">Videos</span></h2>
-              <button className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg transition">
+              <button onClick={()=>navigate('/upload')}
+              className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg transition">
                 <Upload size={18} />
                 Upload New Video
               </button>
@@ -236,7 +238,7 @@ const UploaderDashboard = () => {
                         <Eye size={14} /> {video.views}
                       </span>
                       <span className="text-sm text-pink-600 flex items-center gap-1">
-                        <DollarSign size={14} /> {video.earnings}
+                         ₹{video.earnings}
                       </span>
                     </div>
                   </div>

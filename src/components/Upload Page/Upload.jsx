@@ -11,8 +11,8 @@ const Upload = () => {
       id: 1,
       title: "Midnight Journey",
       description: "A thrilling adventure through city streets at night",
-      price: 4.99,
-      thumbnail: "https://images.unsplash.com/photo-1718047603387-75bc39280f09?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: 600,
+      thumbnail: "https://plus.unsplash.com/premium_photo-1682125795272-4b81d19ea386?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGZpbG18ZW58MHx8MHx8fDA%3D",
       duration: "12:45",
       category: "Adventure"
     },
@@ -20,8 +20,8 @@ const Upload = () => {
       id: 2,
       title: "Summer Breeze",
       description: "Peaceful moments captured during a countryside summer",
-      price: 3.49,
-      thumbnail: "https://images.unsplash.com/photo-1724599048361-7fcb6f62f806?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: 700,
+      thumbnail: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmlsbXxlbnwwfHwwfHx8MA%3D%3D",
       duration: "8:22",
       category: "Documentary"
     },
@@ -29,8 +29,8 @@ const Upload = () => {
       id: 3,
       title: "Urban Patterns",
       description: "Abstract visuals of city architecture and movement",
-      price: 2.99,
-      thumbnail: "https://images.unsplash.com/uploads/14121010130570e22bcdf/e1730efe?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: 500,
+      thumbnail: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZpbG18ZW58MHx8MHx8fDA%3D",
       duration: "5:18",
       category: "Experimental"
     }
@@ -61,7 +61,7 @@ const Upload = () => {
         <div
           className="relative text-white py-20 px-4 bg-center bg-cover"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1724599048361-7fcb6f62f806?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fGZpbG18ZW58MHx8MHx8fDA%3D')`
           }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -107,7 +107,7 @@ const Upload = () => {
                 </div>
                 <p className="text-gray-600 mb-4">{film.description}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-gray-800">${film.price}</span>
+                  <span className="text-2xl font-bold text-gray-800">₹{film.price}</span>
                   <button className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded transition">
                     Purchase
                   </button>

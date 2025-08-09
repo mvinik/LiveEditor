@@ -23,7 +23,6 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      
       {/* Hero Section */}
       <section className="m-20 flex items-center justify-center px-4 " >
         <div className="max-w-6xl mx-auto text-center py-20">

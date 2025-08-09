@@ -22,7 +22,7 @@ const ClientRequestForm = () => {
 
   // Mock data for demonstration
   const editors = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', specialization: 'Travel Vlogs' },
+    { id: 1, name: 'Alex Johnson', email: 'john@example.com', specialization: 'Travel Vlogs' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', specialization: 'Music Videos' },
     { id: 3, name: 'Mike Johnson', email: 'mike@example.com', specialization: 'Corporate Videos' }
   ];
@@ -99,35 +99,50 @@ const ClientRequestForm = () => {
         {/* Form Content - Right Side */}
         <div className="flex-1 p-6">
           {/* Step 1: Editor Selection */}
-          {step === 1 && (
-            <div className="max-w-2xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Select an Editor</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {editors.map(editor => (
-                  <div 
-                    key={editor.id}
-                    className="border rounded-lg p-4 hover:shadow-md transition cursor-pointer"
-                    onClick={() => {
-                      setSelectedEditor(editor);
-                      setStep(2);
-                    }}
-                  >
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center mr-3">
-                        {editor.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <h4 className="font-medium">{editor.name}</h4>
-                        <p className="text-sm text-gray-600">{editor.specialization}</p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-500">{editor.email}</p>
-                  
-                  </div>
-                ))}
-              </div>
+        {step === 1 && (
+  <div className="max-w-2xl mx-auto">
+    <h2 className="text-2xl font-bold mb-6">Select an Editor</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {editors.map(editor => (
+        <div 
+          key={editor.id}
+          className="border rounded-lg p-4 hover:shadow-md transition"
+        >
+          <div className="flex items-center mb-3">
+            <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+              {editor.name.charAt(0).toUpperCase()}
             </div>
-          )}
+            <div>
+              <h4 className="font-medium">{editor.name}</h4>
+              <p className="text-sm text-gray-600">{editor.specialization}</p>
+            </div>
+          </div>
+          <p className="text-sm text-gray-500 mb-4">{editor.email}</p>
+
+          {/* Action buttons */}
+          <div className="flex justify-between">
+            <button
+              onClick={() => {
+                setSelectedEditor(editor);
+                setStep(2);
+              }}
+              className="px-3 py-1 bg-pink-600 text-white rounded-md hover:bg-pink-700"
+            >
+              Select
+            </button>
+            <button
+              onClick={() => navigate(`/editor?id=${editor.id}`)}
+              className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+            >
+              View
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
 
           {/* Step 2: Time Slot Selection */}
           {step === 2 && selectedEditor && (
@@ -285,7 +300,7 @@ const ClientRequestForm = () => {
               <h3 className="text-xl font-semibold mb-2">Request Submitted Successfully!</h3>
               <p className="mb-6">The editor has been notified and will respond to your request soon.</p>
               <button 
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/uploader-dashboard')}
                 className="px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700"
               >
                 Go to Dashboard

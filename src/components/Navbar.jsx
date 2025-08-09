@@ -38,7 +38,7 @@
 //                     );
 //                     setUserId(documentId);
 //                     setInitial(response.data?.username?.charAt(0).toUpperCase() || "");
-                    
+
 //                     if (response.data?.editor) {
 //                         setUserRole('Editor');
 //                     } else if (response.data?.film) {
@@ -369,6 +369,27 @@ const Navbar = () => {
         initial: "U"
     };
 
+    const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
+    const [registerMenuOpen, setRegisterMenuOpen] = useState(false);
+    
+    const toggleDashboardMenu = () => {
+        setDashboardMenuOpen(!dashboardMenuOpen);
+        // Close register menu if open
+        if (registerMenuOpen) setRegisterMenuOpen(false);
+    };
+
+    const toggleRegisterMenu = () => {
+        setRegisterMenuOpen(!registerMenuOpen);
+        // Close dashboard menu if open
+        if (dashboardMenuOpen) setDashboardMenuOpen(false);
+    };
+
+    const closeAllMenus = () => {
+        setDashboardMenuOpen(false);
+        setRegisterMenuOpen(false);
+        setMobileMenuOpen(false);
+    };
+
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     };
@@ -376,7 +397,7 @@ const Navbar = () => {
     const handleUploaderRegisterClick = (e) => {
         e.preventDefault();
         setShowUploaderRegister(true);
-        setMobileMenuOpen(false);
+        closeAllMenus();
     };
 
     const closeUploaderRegister = () => {
@@ -386,7 +407,7 @@ const Navbar = () => {
     const handleEditorRegisterClick = (e) => {
         e.preventDefault();
         setShowEditorRegister(true);
-        setMobileMenuOpen(false);
+        closeAllMenus();
     };
 
     const closeEditorRegister = () => {
@@ -396,7 +417,7 @@ const Navbar = () => {
     const handleNotificationClick = (e) => {
         e.preventDefault();
         setShowNotification(true);
-        setMobileMenuOpen(false);
+        closeAllMenus();
     };
 
     const closeNotification = () => {
@@ -435,38 +456,67 @@ const Navbar = () => {
                             </a>
                             <a className='p-2 text-white hover:bg-pink-600 rounded-md' href="/upload">Upload</a>
 
-                            {userRole === 'Uploader' && (
-                                <a className='p-2 flex items-center text-white hover:bg-pink-600 rounded-md' href="/uploader-dashboard">
-                                    UDashboard
-                                </a>
-                            )}
+                            <div className="relative">
+                                <button
+                                    onClick={toggleDashboardMenu}
+                                    className=" text-white px-4 py-2 rounded-md hover:bg-pink-600"
+                                >
+                                    Dashboard
+                                </button>
 
-                            {userRole === 'Editor' && (
-                                <a className='p-2 flex items-center text-white hover:bg-pink-600 rounded-md' href="/editor-dashboard">
-                                    EDashboard
-                                </a>
-                            )}
+                                {dashboardMenuOpen && (
+                                    <div className="absolute mt-2 bg-white border rounded shadow-lg w-48 z-50">
+                                        <button
+                                            onClick={() => {
+                                                navigate("/editor-dashboard");
+                                                closeAllMenus();
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Editor Dashboard
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                navigate("/uploader-dashboard");
+                                                closeAllMenus();
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Uploader Dashboard
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
 
-                            {!userRole && (
-                                <>
-                                    <button
-                                        onClick={handleEditorRegisterClick}
-                                        className="p-2 px-4 flex items-center bg-pink-700 text-white rounded-md hover:bg-pink-800 transition"
-                                    >
-                                        Register Editor
-                                    </button>
-                                    <button
-                                        onClick={handleUploaderRegisterClick}
-                                        className="p-2 px-4 flex items-center bg-pink-700 text-white rounded-md hover:bg-pink-800 transition"
-                                    >
-                                        Register Uploader
-                                    </button>
-                                </>
-                            )}
+                            <div className="relative">
+                                <button
+                                    onClick={toggleRegisterMenu}
+                                    className=" text-white px-4 py-2 rounded-md hover:bg-pink-600"
+                                >
+                                    Register
+                                </button>
+
+                                {registerMenuOpen && (
+                                    <div className="absolute mt-2 bg-white border rounded shadow-lg w-48 z-50">
+                                        <button
+                                            onClick={handleEditorRegisterClick}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Register Editor
+                                        </button>
+                                        <button
+                                            onClick={handleUploaderRegisterClick}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Register Uploader
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
 
                             <button
                                 onClick={handleNotificationClick}
-                                className="p-2 px-4 flex items-center bg-pink-700 text-white rounded-md hover:bg-pink-800 transition"
+                                className="p-2 px-4 flex items-center  text-white rounded-md hover:bg-pink-700 transition"
                             >
                                 <NotificationsIcon />
                             </button>
@@ -489,7 +539,7 @@ const Navbar = () => {
                         </>
                     ) : (
                         <>
-                            <a className='p-2 flex items-center' href="/">
+                            <a className='p-2 flex items-center text-white' href="/">
                                 Home
                             </a>
                             <a className="p-2 px-4 flex items-center bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition" href="/login">
@@ -501,7 +551,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu Button */}
                 <div className="md:hidden flex items-center px-4">
-                    <button 
+                    <button
                         onClick={toggleMobileMenu}
                         className="text-white focus:outline-none"
                     >
@@ -516,57 +566,53 @@ const Navbar = () => {
                     <div className="flex flex-col px-4 py-2 space-y-2">
                         {isLoggedIn ? (
                             <>
-                                <a 
-                                    className='p-2 text-white hover:bg-pink-700 rounded-md' 
+                                <a
+                                    className='p-2 text-white hover:bg-pink-700 rounded-md'
                                     href="/"
-                                    onClick={() => setMobileMenuOpen(false)}
+                                    onClick={closeAllMenus}
                                 >
                                     Home
                                 </a>
-                                <a 
-                                    className='p-2 text-white hover:bg-pink-700 rounded-md' 
+                                <a
+                                    className='p-2 text-white hover:bg-pink-700 rounded-md'
                                     href="/upload"
-                                    onClick={() => setMobileMenuOpen(false)}
+                                    onClick={closeAllMenus}
                                 >
                                     Upload
                                 </a>
 
-                                {userRole === 'Uploader' && (
-                                    <a 
-                                        className='p-2 text-white hover:bg-pink-700 rounded-md' 
-                                        href="/uploader-dashboard"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                    >
-                                        Uploader Dashboard
-                                    </a>
-                                )}
+                                <button
+                                    onClick={() => {
+                                        navigate("/editor-dashboard");
+                                        closeAllMenus();
+                                    }}
+                                    className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
+                                >
+                                    Editor Dashboard
+                                </button>
 
-                                {userRole === 'Editor' && (
-                                    <a 
-                                        className='p-2 text-white hover:bg-pink-700 rounded-md' 
-                                        href="/editor-dashboard"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                    >
-                                        Editor Dashboard
-                                    </a>
-                                )}
+                                <button
+                                    onClick={() => {
+                                        navigate("/uploader-dashboard");
+                                        closeAllMenus();
+                                    }}
+                                    className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
+                                >
+                                    Uploader Dashboard
+                                </button>
 
-                                {!userRole && (
-                                    <>
-                                        <button
-                                            onClick={handleEditorRegisterClick}
-                                            className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
-                                        >
-                                            Register Editor
-                                        </button>
-                                        <button
-                                            onClick={handleUploaderRegisterClick}
-                                            className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
-                                        >
-                                            Register Uploader
-                                        </button>
-                                    </>
-                                )}
+                                <button
+                                    onClick={handleEditorRegisterClick}
+                                    className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
+                                >
+                                    Register Editor
+                                </button>
+                                <button
+                                    onClick={handleUploaderRegisterClick}
+                                    className="p-2 text-left text-white hover:bg-pink-700 rounded-md"
+                                >
+                                    Register Uploader
+                                </button>
 
                                 <button
                                     onClick={handleNotificationClick}
@@ -584,17 +630,17 @@ const Navbar = () => {
                             </>
                         ) : (
                             <>
-                                <a 
-                                    className='p-2 text-white hover:bg-pink-700 rounded-md' 
+                                <a
+                                    className='p-2 text-white hover:bg-pink-700 rounded-md'
                                     href="/"
-                                    onClick={() => setMobileMenuOpen(false)}
+                                    onClick={closeAllMenus}
                                 >
                                     Home
                                 </a>
-                                <a 
-                                    className="p-2 text-white hover:bg-pink-700 rounded-md" 
+                                <a
+                                    className="p-2 text-white hover:bg-pink-700 rounded-md"
                                     href="/login"
-                                    onClick={() => setMobileMenuOpen(false)}
+                                    onClick={closeAllMenus}
                                 >
                                     Log in
                                 </a>
@@ -612,7 +658,7 @@ const Navbar = () => {
                             <FaTimes />
                         </button>
                         <div className="py-6">
-                            <h3 className="text-lg font-medium text-center mb-4">Editor Registration</h3>
+                            <h3 className="text-2xl font-bold text-center mb-4">Editor <span className="text-pink-600">Registration</span></h3>
                             <form className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Full Name</label>
@@ -628,13 +674,7 @@ const Navbar = () => {
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Password</label>
-                                    <input
-                                        type="password"
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
-                                    />
-                                </div>
+                               
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Specialization</label>
                                     <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
@@ -666,7 +706,7 @@ const Navbar = () => {
                             <FaTimes />
                         </button>
                         <div className="py-6">
-                            <h3 className="text-lg font-medium text-center mb-4">Uploader Registration</h3>
+                            <h3 className="text-2xl font-bold text-center mb-4">Uploader <span className="text-pink-600">Registration</span></h3>
                             <form className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Full Name</label>
@@ -682,13 +722,7 @@ const Navbar = () => {
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Password</label>
-                                    <input
-                                        type="password"
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
-                                    />
-                                </div>
+                                
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Organization (optional)</label>
                                     <input
