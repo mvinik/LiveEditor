@@ -42,7 +42,7 @@ const Upload = () => {
     const newFilms = uploadedFiles.map(file => ({
       id: file.id,
       title: file.name.split('.')[0],
-      description: "Your newly uploaded short film",
+      description: "Your newly uploaded film",
       price: 0.99,
       thumbnail: file.preview,
       duration: "--:--",
@@ -66,7 +66,7 @@ const Upload = () => {
         >
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           <div className="relative max-w-6xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Showcase Your Short Films</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Showcase Your Films</h1>
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Upload your creative work and connect with audiences worldwide
             </p>
@@ -83,7 +83,7 @@ const Upload = () => {
        
       {/* Films Grid */}
       <div className="max-w-6xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">Featured <span className='text-pink-600'>Short Films</span></h2>
+        <h2 className="text-3xl font-bold mb-8 text-gray-800">Featured <span className='text-pink-600'>Films</span></h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {films.map(film => (

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format, addDays, setHours, setMinutes, isSameDay } from 'date-fns';
 import { Calendar } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // Main style file
-import 'react-date-range/dist/theme/default.css'; // Theme CSS file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 
@@ -11,6 +11,11 @@ const ClientRequestForm = () => {
   const [step, setStep] = useState(1);
   const [selectedEditor, setSelectedEditor] = useState(null);
   const [selectedSlots, setSelectedSlots] = useState([]);
+  const [clientDetails, setClientDetails] = useState({
+    name: '',
+    designation: '',
+    filmGenre: ''
+  });
   const [projectDetails, setProjectDetails] = useState({
     title: '',
     description: '',
@@ -27,16 +32,27 @@ const ClientRequestForm = () => {
     { id: 3, name: 'Mike Johnson', email: 'mike@example.com', specialization: 'Corporate Videos' }
   ];
 
+  // Film genres options
+  const filmGenres = [
+    'Commercial',
+    'Documentary',
+    'Music Video',
+    'Short Film',
+    'Corporate Video',
+    'Wedding Film',
+    'Travel Vlog',
+    'Social Media Content',
+    'Other'
+  ];
+
   // Generate time slots for the next 7 days
   const generateTimeSlots = () => {
     const slots = [];
     const today = new Date();
     
-    // Generate for next 7 days from today
     for (let day = 0; day < 7; day++) {
       const date = addDays(today, day);
       
-      // Generate 2-hour slots from 8 AM to 8 PM
       for (let hour = 8; hour <= 20; hour += 2) {
         const startTime = setMinutes(setHours(date, hour), 0);
         const endTime = setMinutes(setHours(date, hour + 2), 0);
@@ -65,9 +81,14 @@ const ClientRequestForm = () => {
     }
   };
 
+  const handleClientDetailsSubmit = (e) => {
+    e.preventDefault();
+    setStep(2);
+  };
+
   const handleProjectSubmit = (e) => {
     e.preventDefault();
-    setStep(4);
+    setStep(5);
   };
 
   return (
@@ -79,7 +100,7 @@ const ClientRequestForm = () => {
         <div className="w-full md:w-64 bg-gray-50 p-6 border-r">
           <h2 className="text-xl font-bold mb-6">Request Steps</h2>
           <div className="space-y-6">
-            {[1, 2, 3, 4].map((stepNumber) => (
+            {[1, 2, 3, 4, 5].map((stepNumber) => (
               <div 
                 key={stepNumber}
                 className={`flex items-center cursor-pointer ${step >= stepNumber ? 'text-pink-600' : 'text-gray-500'}`}
@@ -89,7 +110,7 @@ const ClientRequestForm = () => {
                   {stepNumber}
                 </div>
                 <span>
-                  {['Choose Editor', 'Select Times', 'Project Details', 'Confirmation'][stepNumber-1]}
+                  {['Your Details', 'Choose Editor', 'Select Times', 'Project Details', 'Confirmation'][stepNumber-1]}
                 </span>
               </div>
             ))}
@@ -98,59 +119,112 @@ const ClientRequestForm = () => {
 
         {/* Form Content - Right Side */}
         <div className="flex-1 p-6">
-          {/* Step 1: Editor Selection */}
-        {step === 1 && (
-  <div className="max-w-2xl mx-auto">
-    <h2 className="text-2xl font-bold mb-6">Select an Editor</h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {editors.map(editor => (
-        <div 
-          key={editor.id}
-          className="border rounded-lg p-4 hover:shadow-md transition"
-        >
-          <div className="flex items-center mb-3">
-            <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center mr-3">
-              {editor.name.charAt(0).toUpperCase()}
+          {/* Step 1: Client Details */}
+          {step === 1 && (
+            <div className="max-w-2xl mx-auto">
+              <h2 className="text-2xl font-bold mb-6">Your Information</h2>
+              <form onSubmit={handleClientDetailsSubmit}>
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded-md"
+                    value={clientDetails.name}
+                    onChange={(e) => setClientDetails({...clientDetails, name: e.target.value})}
+                    required
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Designation</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded-md"
+                    value={clientDetails.designation}
+                    onChange={(e) => setClientDetails({...clientDetails, designation: e.target.value})}
+                    required
+                    placeholder="Your role/position"
+                  />
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Primary Film Genre</label>
+                  <select
+                    className="w-full p-2 border rounded-md"
+                    value={clientDetails.filmGenre}
+                    onChange={(e) => setClientDetails({...clientDetails, filmGenre: e.target.value})}
+                    required
+                  >
+                    <option value="">Select a genre</option>
+                    {filmGenres.map(genre => (
+                      <option key={genre} value={genre}>{genre}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="flex justify-end">
+                  <button 
+                    type="submit"
+                    className="px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </form>
             </div>
-            <div>
-              <h4 className="font-medium">{editor.name}</h4>
-              <p className="text-sm text-gray-600">{editor.specialization}</p>
+          )}
+
+          {/* Step 2: Editor Selection */}
+          {step === 2 && (
+            <div className="max-w-2xl mx-auto">
+              <h2 className="text-2xl font-bold mb-6">Select an Editor</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {editors.map(editor => (
+                  <div 
+                    key={editor.id}
+                    className="border rounded-lg p-4 hover:shadow-md transition"
+                  >
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                        {editor.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <h4 className="font-medium">{editor.name}</h4>
+                        <p className="text-sm text-gray-600">{editor.specialization}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-4">{editor.email}</p>
+
+                    <div className="flex justify-between">
+                      <button
+                        onClick={() => {
+                          setSelectedEditor(editor);
+                          setStep(3);
+                        }}
+                        className="px-3 py-1 bg-pink-600 text-white rounded-md hover:bg-pink-700"
+                      >
+                        Select
+                      </button>
+                      <button
+                        onClick={() => navigate(`/editor?id=${editor.id}`)}
+                        className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+                      >
+                        View
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <p className="text-sm text-gray-500 mb-4">{editor.email}</p>
+          )}
 
-          {/* Action buttons */}
-          <div className="flex justify-between">
-            <button
-              onClick={() => {
-                setSelectedEditor(editor);
-                setStep(2);
-              }}
-              className="px-3 py-1 bg-pink-600 text-white rounded-md hover:bg-pink-700"
-            >
-              Select
-            </button>
-            <button
-              onClick={() => navigate(`/editor?id=${editor.id}`)}
-              className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
-            >
-              View
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-
-
-          {/* Step 2: Time Slot Selection */}
-          {step === 2 && selectedEditor && (
+          {/* Step 3: Time Slot Selection */}
+          {step === 3 && selectedEditor && (
             <div className="max-w-2xl mx-auto">
               <h2 className="text-2xl font-bold mb-2">Select Time Slots</h2>
               <p className="mb-6">For editor: {selectedEditor.name}</p>
               
-              {/* Calendar Date Picker */}
               <div className="mb-4">
                 <button
                   onClick={() => setShowCalendar(!showCalendar)}
@@ -174,7 +248,6 @@ const ClientRequestForm = () => {
                 )}
               </div>
               
-              {/* Time Slots for Selected Date */}
               <div className="mb-6">
                 <h3 className="text-lg font-medium mb-3">Available Time Slots</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -193,7 +266,6 @@ const ClientRequestForm = () => {
                 </div>
               </div>
               
-              {/* Selected Slots Preview */}
               {selectedSlots.length > 0 && (
                 <div className="mb-4 p-3 bg-gray-50 rounded-md">
                   <h4 className="font-medium mb-2">Selected Time Slots:</h4>
@@ -212,13 +284,13 @@ const ClientRequestForm = () => {
               
               <div className="flex justify-between">
                 <button 
-                  onClick={() => setStep(1)}
+                  onClick={() => setStep(2)}
                   className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
                 >
                   Back
                 </button>
                 <button 
-                  onClick={() => setStep(3)}
+                  onClick={() => setStep(4)}
                   disabled={selectedSlots.length !== 3}
                   className={`px-4 py-2 rounded-md 
                     ${selectedSlots.length === 3 ? 'bg-pink-600 text-white hover:bg-pink-700' : 'bg-gray-300 cursor-not-allowed'}`}
@@ -229,8 +301,8 @@ const ClientRequestForm = () => {
             </div>
           )}
 
-          {/* Step 3: Project Details */}
-          {step === 3 && (
+          {/* Step 4: Project Details */}
+          {step === 4 && (
             <div className="max-w-2xl mx-auto">
               <h2 className="text-2xl font-bold mb-6">Project Details</h2>
               <form onSubmit={handleProjectSubmit}>
@@ -273,7 +345,7 @@ const ClientRequestForm = () => {
                 <div className="flex justify-between">
                   <button 
                     type="button"
-                    onClick={() => setStep(2)}
+                    onClick={() => setStep(3)}
                     className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
                   >
                     Back
@@ -289,8 +361,8 @@ const ClientRequestForm = () => {
             </div>
           )}
 
-          {/* Step 4: Confirmation */}
-          {step === 4 && (
+          {/* Step 5: Confirmation */}
+          {step === 5 && (
             <div className="max-w-2xl mx-auto text-center py-8">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

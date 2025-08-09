@@ -36,7 +36,7 @@ const navigate=useNavigate()
       thumbnail: "https://images.pexels.com/photos/1117132/pexels-photo-1117132.jpeg",
       views: 800,
       earnings: 1500,
-      status: "Pending Review",
+      status: "Published",
     },
     {
       id: 3,
@@ -44,7 +44,7 @@ const navigate=useNavigate()
       thumbnail: "https://images.pexels.com/photos/274937/pexels-photo-274937.jpeg",
       views: 500,
       earnings: 800,
-      status: "Draft",
+      status: "Published",
     },
   ];
 

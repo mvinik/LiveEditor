@@ -455,6 +455,7 @@ const Navbar = () => {
                                 Home
                             </a>
                             <a className='p-2 text-white hover:bg-pink-600 rounded-md' href="/upload">Upload</a>
+                             <a className='p-2 text-white hover:bg-pink-600 rounded-md' href="/edit-request">Edit Request</a>
 
                             <div className="relative">
                                 <button
@@ -579,6 +580,13 @@ const Navbar = () => {
                                     onClick={closeAllMenus}
                                 >
                                     Upload
+                                </a>
+                                  <a
+                                    className='p-2 text-white hover:bg-pink-700 rounded-md'
+                                    href="/edit-request"
+                                    onClick={closeAllMenus}
+                                >
+                               Edit Request
                                 </a>
 
                                 <button
